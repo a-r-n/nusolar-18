@@ -1,0 +1,7 @@
+0x000
+temperature
+highbits
+32
+lowbits
+32
+X
