@@ -1,3 +1,1 @@
-class Field {
-
-}
+class Field(val name:String, val size:Integer)
