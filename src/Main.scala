@@ -16,12 +16,11 @@ object Main extends App {
 
   while(true) {
     Thread.sleep(50)
-    while (PacketReceiver.packetBuffer.nonEmpty) {
-      val k = PacketReceiver.packetBuffer.remove(0)
-      for (by <- k) {
-        print(by + " ")
+    PacketReceiver.packetBuffer.synchronized {
+      while (PacketReceiver.packetBuffer.nonEmpty) {
+        val k = PacketReceiver.packetBuffer.remove(0)
+        println(k)
       }
-      println()
     }
   }
 }

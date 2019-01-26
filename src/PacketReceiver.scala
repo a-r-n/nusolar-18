@@ -21,10 +21,12 @@ object PacketReceiver extends Thread {
     */
   override def run(): Unit = {
     while (Main.process) {
-      var localBuffer: Array[Byte] = new Array[Byte](80)
-      val packet: DatagramPacket = new DatagramPacket(localBuffer, localBuffer.length)
-      mcastSocket.receive(packet) //dump packet data into localBuffer
-      packetBuffer += localBuffer
+      packetBuffer.synchronized {
+        var localBuffer: Array[Byte] = new Array[Byte](80)
+        val packet: DatagramPacket = new DatagramPacket(localBuffer, localBuffer.length)
+        mcastSocket.receive(packet) //dump packet data into localBuffer
+        packetBuffer += localBuffer
+      }
     }
   }
 }
