@@ -34,7 +34,12 @@ def DataParser(id_type, x):
         data4 = (x >> 8) & 0xff
         data5 = (x) & 0xff
         print(
-                    "Minimum cell voltage(mV): %d \r\n         Maximum cell voltage(mV): %d \r\n         CMU number that has minimum cell voltage:%d \r\n         Cell number that has minimum cell voltage:%d \r\n         CMU number that has max cell voltage:%d \r\n         Cell number that has max cell voltage:%d \r\n" % (
+                    "Minimum cell voltage(mV): %d \r\n'\
+                    Maximum cell voltage(mV): %d \r\n'\
+                    CMU number that has minimum cell voltage:%d \r\n'\
+                    Cell number that has minimum cell voltage:%d \r\n'\
+                    CMU number that has max cell voltage:%d \r\n'\
+                    Cell number that has max cell voltage:%d \r\n" % (
             data0, data1, data2, data3, data4, data5))
 
     if id_type == 0x0F6:
@@ -43,20 +48,28 @@ def DataParser(id_type, x):
         data2 = (x >> 16) & 0xffff
         data3 = (x) & 0xffff
         print(
-                    "Charging cell voltage error(mV): %d \r\n         Cell temperature margin(1/10C): %d \r\n        Discharging cell voltage error(mV): %d \r\n        Total pack capacity(Ah): %d \r\n" % (
+                    "Charging cell voltage error(mV): %d \r\n'\
+                    Cell temperature margin(1/10C): %d \r\n'\
+                    Discharging cell voltage error(mV): %d \r\n'\
+                    Total pack capacity(Ah): %d \r\n" % (
             data0, data1, data2, data3))
     if id_type == 0x001 or id_type == 0x004 or id_type == 0x007:
         data0 = x >> 16 * 2
         data1 = (x >> 16) & 0xffff
         data2 = (x) & 0xffff
-        print("CMU serial number: %d \r\n PCB temp(1/10C): %d \r\n Cell temp(1/10C): %d" % (data0, data1, data2))
+        print("CMU serial number: %d \r\n'\
+        PCB temp(1/10C): %d \r\n'\
+        Cell temp(1/10C): %d" % (data0, data1, data2))
     if id_type == 0x002 or id_type == 0x005 or id_type == 0x008 or id_type == 0x00B:
         data0 = x >> 16 * 3
         data1 = (x >> 16 * 2) & 0xffff
         data2 = (x >> 16) & 0xffff
         data3 = (x) & 0xffff
         print(
-                    "Cell voltage 0(mV): %d \r\n         Cell voltage 1(mV): %d \r\n         Cell voltage 2(mV): %d \r\n         Cell voltage 3(mV): %d \r\n" % (
+                    "Cell voltage 0(mV): %d \r\n'\
+                    Cell voltage 1(mV): %d \r\n'\
+                    Cell voltage 2(mV): %d \r\n'\
+                    Cell voltage 3(mV): %d \r\n" % (
             twos_comp(data0, 16), twos_comp(data1, 16), twos_comp(data2, 16), twos_comp(data3, 16)))
     if id_type == 0x003 or id_type == 0x006 or id_type == 0x009 or id_type == 0x00C:
         data0 = x >> 16 * 3
@@ -64,7 +77,10 @@ def DataParser(id_type, x):
         data2 = (x >> 16) & 0xffff
         data3 = (x) & 0xffff
         print(
-                    "        Cell voltage 4(mV): %d \n         Cell voltage 5(mV): %d \r\n         Cell voltage 6(mV): %d \r\n         Cell voltage 7(mV): %d \r\n" % (
+                    "Cell voltage 4(mV): %d \r\n'\
+                    Cell voltage 5(mV): %d \r\n'\
+                    Cell voltage 6(mV): %d \r\n'\
+                    Cell voltage 7(mV): %d \r\n" % (
             twos_comp(data0, 16), twos_comp(data1, 16), twos_comp(data2, 16), twos_comp(data3, 16)))
 
 
@@ -99,7 +115,7 @@ while True:
     datasum = 0
     for n in data:
         datasum = datasum * 0xFF + n
-    #print datasum
+    print datasum
     x = DataParser(idsum, datasum)
     #if x: print x
 
