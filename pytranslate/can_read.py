@@ -2,6 +2,38 @@ import socket
 import sys
 import struct
 import time
+import pandas as pd
+
+class Parser:
+    table = None
+    def __init__(self, fileName):
+        self.table = pd.read_csv(fileName, converters={"ID": lambda x: int(x, 16)})
+        self.table.set_index("ID", inplace=True)
+        for i, r in self.table.iterrows():
+            count = 0
+            for n in range(1, 8):
+                if type(r[n * 2]) is int: count += r[n * 2]
+            if count != 8:
+                raise Exception("Row " + hex(i) + " is not consistent! "
+                                "Expected byte sum of 8, but got " + str(count) + ". ")
+
+    def getName(self, id):
+        return self.table.loc[id]["Name"]
+
+    def getData(self, id, rawData):
+        fieldNames = []
+        fieldValues = []
+        byteCount = 0
+        pairIndex = 1
+        while type(self.table.loc[id][pairIndex]) is str:
+            fieldNames = fieldNames + [self.table.loc[id][pairIndex]]
+            byteLength = self.table.loc[id][pairIndex + 1]
+            val = rawData >> int(8 * (8 - byteLength - byteCount))      # Right shift so that the last byteLength bytes are our data
+            val = val & int(2 ** (byteLength * 8) - 1)                  # Mask off the bytes more significant than byteLength
+            fieldValues = fieldValues + [val]
+            pairIndex += 2
+            byteCount += byteLength
+        return fieldNames, fieldValues
 
 def twos_comp(val, bits): #look into xor all of this
     """compute the 2's complement of int value val"""
@@ -10,7 +42,7 @@ def twos_comp(val, bits): #look into xor all of this
     return val
 
 
-def IDparser(id_type):
+def IDparserManual(id_type):
     if id_type == 0x0:
         return "Heartbeat"
     if id_type == 0x0F6:
@@ -25,7 +57,7 @@ def IDparser(id_type):
         return "Minimum/Maximum Cell Voltage"
 
 
-def DataParser(id_type, x):
+def DataParserManual(id_type, x):
     if id_type == 0x0F8:
         data0 = x >> (16 * 3)
         data1 = (x >> 16 * 2) & 0xffff
@@ -84,6 +116,15 @@ def DataParser(id_type, x):
             twos_comp(data0, 16), twos_comp(data1, 16), twos_comp(data2, 16), twos_comp(data3, 16)))
 
 
+p = Parser("id-table.csv")
+data = 0xDEADBEEFABCD1111
+names, vals = p.getData(0x10, data)
+print(names)
+print(vals)
+sys.exit(0)
+
+#print(test.loc[0x10])
+
 # Change the selector to the IDs that you want to parse or print out
 # selector = [" 0x002"," 0x003"," 0x005"," 0x006"," 0x008"," 0x009"," 0x00B"]
 selector = [" 0x003", " 0x005", " 0x006", " 0x008", " 0x009", " 0x00B"]
@@ -115,7 +156,7 @@ while True:
     datasum = 0
     for n in data:
         datasum = datasum * 0xFF + n
-    print datasum
-    x = DataParser(idsum, datasum)
+    print(datasum)
+    #x = DataParser(idsum, datasum)
     #if x: print x
 
