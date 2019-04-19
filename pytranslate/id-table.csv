@@ -1,2 +1,5 @@
-ID,Name,F0N,F0W,F1N,F1W,F2N,F2W,F3N,F3W,F4N,F4W,F5N,F5W,F6N,F6W,F7N,F7W
-0x10,Heartbeat,Test Data 0,4,Test Data 1,2,TD2,1,TD3,1,,,,,,,,
+ID,Name,F0N,F0W,F1N,F1W,F2N,F2W,F3N,F3W,F4N,F4W,F5N,F5W,F6N,F6W,F7N,F7W,F7N,F7W,F7N,F7W,F7N,F7W,F7N,F7W,F7N,F7W,F7N,F7W,F7N,F7W,F7N,F7W,F7N,F7W,F7N,F7W,F7N,F7W,F7N,F7W,F7N,F7W,F7N,F7W,F7N,F7W,F7N,F7W,F7N,F7W,F7N,F7W,F7N,F7W
+0x11,Heartbeat,Test Data 0,32,Test Data 1,16,TD2,8,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+0x21,Battery(s),Checksum,8,Open Voltage,16,Internal Resistence,16,Instant Voltage,16,Cell ID,8,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+0x08850205,Motor,NULL,17,Motor Speed,12,FET Temp,5,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+0x10,Errors,NULL,34,Overheat Lvl,2,RFU,4,Hall sensor open,1,Hall sensor short,1,Motor lock,1,Motor sys error,1,RFU,2,Overcurrent,1,RFU,1,Overvolt error,1,RFU,1,Overcurrent Error,1,Power sys error,1,RFU,4,Ctrl voltage sensor erro,1,RFU,1,Accel Pos error,1,Motor current sensor adj error,1,Battery current sensor adjust,1,Battery current sensor error ,1,bateery voltage sensor error,1,RFU,1,FET Thermistor error,1,Motor curent sensor W,1,Motor current sensor U,1,Analog sensor error,1
