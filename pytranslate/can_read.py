@@ -28,8 +28,8 @@ class Parser:
         fieldNames = []
         fieldValues = []
         bitCount = 0
-        pairIndex = 3
-        while type(self.table.loc[id][pairIndex]) is str:
+        pairIndex = 1
+        while pairIndex <= self.table.shape[1] - 1 and type(self.table.loc[id][pairIndex]) is str:
             fieldNames = fieldNames + [self.table.loc[id][pairIndex]]
             bitLength = self.table.loc[id][pairIndex + 1]
             val = rawData >> int(64 - bitLength - bitCount)      # Right shift so that the last byteLength bytes are our data
@@ -41,18 +41,40 @@ class Parser:
 
 
 p = Parser("id-table.csv")
-data = 0xDEADBEEFABCD1111
+data = 0xADEADBEEFABCD1111
 names, vals = p.getData(0x10, data)
 print(names)
 print(vals)
-sys.exit(0)
+#sys.exit(0)
 
 port = sys.argv[1]
 
-ser = serial.Serial(port, 9600)
+ser = serial.Serial(port, 57600)
+
+ser.write("\rZ0\r".encode("UTF-8"))
+
+ser.write("S5\r".encode("UTF-8"))
+
+ser.write("X1\r".encode("UTF-8"))
+
+ser.write("C\r".encode("UTF-8"))
+
+time.sleep(1)
+
+ser.write("O\rA\r".encode("UTF-8"))
 
 while True:
-    msg = str(ser.readline(100000))
-    msg = re.findall('\'.*\'', msg)[0][1:-1]
-    print(msg)
+    ser.write("P\r".encode("UTF-8"))
+    msg = ser.read(1000)
+    x = msg.split(b'\rt')
+    #msg = re.findall('\'.*\'', msg)[0][1:-1]
+    for i in x:
+        if len(i) == 20:
+            localID = int(str(i)[2:5], 16)
+            localDat = int(str(i)[5:-1], 16)
+            if localID == 54:
+                print(i)
+                names, vals = p.getData(localID, localDat)
+                print(names)
+                print(vals)
 
