@@ -71,8 +71,9 @@ while True:
     for i in x:
         if len(i) == 20:
             localID = int(str(i)[2:5], 16)
+            print(str(localID))
             localDat = int(str(i)[5:-1], 16)
-            if localID == 54:
+            if localID == 54 or localID == 0x6B2:
                 print(i)
                 names, vals = p.getData(localID, localDat)
                 print(names)
