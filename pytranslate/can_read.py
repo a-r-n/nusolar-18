@@ -64,9 +64,9 @@ time.sleep(1)
 ser.write("O\rA\r".encode("UTF-8"))
 
 while True:
-    ser.write("P\r".encode("UTF-8"))
-    msg = ser.read(1000)
-    x = msg.split(b'\rt')
+    ser.write("P\r".encode("UTF-8")) #TODO: make this continuous optioon outside loop
+    msg = ser.read(1000)        #read data
+    x = msg.split(b'\rt')   #Segment data stream into packets
     #msg = re.findall('\'.*\'', msg)[0][1:-1]
     for i in x:
         if len(i) == 20:
@@ -78,4 +78,6 @@ while True:
                 names, vals = p.getData(localID, localDat)
                 print(names)
                 print(vals)
+        if len(i) == 25:
+            pass
 
