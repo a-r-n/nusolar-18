@@ -41,11 +41,6 @@ class Parser:
 
 
 p = Parser("id-table.csv")
-data = 0xADEADBEEFABCD1111
-names, vals = p.getData(0x10, data)
-print(names)
-print(vals)
-#sys.exit(0)
 
 port = sys.argv[1]
 
@@ -71,9 +66,9 @@ while True:
     for i in x:
         if len(i) == 20:
             localID = int(str(i)[2:5], 16)
-            print(str(localID))
+            #print(str(localID))
             localDat = int(str(i)[5:-1], 16)
-            if localID == 54 or localID == 0x6B2:
+            if True or localID == 54 or localID == 0x6B2:
                 print(i)
                 names, vals = p.getData(localID, localDat)
                 print(names)
